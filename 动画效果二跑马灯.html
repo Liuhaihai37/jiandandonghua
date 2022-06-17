@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动画跑马灯</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .carousel {
+            width: 650px;
+            height: 360px;
+            border: 1px solid #000;
+            margin: 50px auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel ul {
+            list-style: none;
+            width: 5000px;
+            position: relative;
+            left: 0px;
+            transition: left .3s linear 0s;
+        }
+
+        .carousel ul li {
+            float: left;
+        }
+
+        .carousel .butleft {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            margin-top: -25px;
+            width: 50px;
+            height: 50px;
+            background-color: rgb(0, 238, 255);
+            border-radius: 50%;
+        }
+
+        .carousel .butright {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            margin-top: -25px;
+            width: 50px;
+            height: 50px;
+            background-color: rgb(0, 247, 255);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="carousel">
+        <ul id="list">
+            <li><img src="imges/0.jp.jpg" alt=""></li>
+            <li><img src="imges/1.jp.jpg" alt=""></li>
+            <li><img src="imges/5.jp.jpg" alt=""></li>
+            <li><img src="imges/3.jp.jpg" alt=""></li>
+            <li><img src="imges/4.jp.jpg" alt=""></li>
+        </ul>
+        <a href="javascript:;" class="butleft" id="butleft"></a>
+        <a href="javascript:;" class="butright" id="butright"></a>
+    </div>
+    <script>
+        var butleft = document.getElementById("butleft");
+        var butright = document.getElementById("butright");
+        var list = document.getElementById("list");
+        //克隆第一张到最后去
+        var cloneli = list.firstElementChild.cloneNode(true);
+        list.appendChild(cloneli)
+        //节流锁
+        var lock=true;
+        // 当第几张时显示
+        var idx = 0;
+        //左边的按钮
+        butleft.onclick = function () {
+            if(!lock) return;
+            lock=false;
+            //是为了最后那个才加上过渡的
+            list.style.transition="left .3s linear 0s";
+            idx ++;
+            if (idx > 4) {
+                //给图片加个延时器，使最后一张后返回第一张
+                setTimeout(function () {
+                    //去掉过渡防止“咕噜”回来
+                    list.style.transition = "none";
+                    list.style.left = 0 + "px";
+                    idx = 0;
+                }, 500);
+            }
+            //函数节流
+            list.style.left = -idx * 650 + "px";
+            setTimeout(function () {
+                lock=true;
+            }, 500);
+        }
+        // 右边的按钮
+        butright.onclick=function(){
+            if(!lock) return;
+            lock=false;
+            if(idx==0){
+                    //去掉过渡防止“咕噜”回来
+                    list.style.transition = "none";
+                    list.style.left=-5*650+"px";
+                    //虽然是零毫秒，但非常管用；可以让我们的过度瞬间取消，然后再加上
+                    setTimeout(function(){
+                     //是为了最后那个才加上过渡的
+                     list.style.transition="left .3s linear 0s";
+                     idx=4;
+                     list.style.left = -idx * 650 + "px";
+                    },0);
+            }else {
+                idx--;
+                list.style.left = -idx * 650 + "px";
+            }
+            //函数节流
+            setTimeout(function () {
+                lock=true;
+            }, 500);
+        }
+    </script>
+</body>
+
+</html>

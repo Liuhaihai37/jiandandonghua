@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>呼吸轮播图</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .carousel {
+            width: 650px;
+            height: 360px;
+            border: 1px solid #000;
+            margin: 50px auto;
+            position: relative;
+        }
+
+        .carousel ul {
+            list-style: none;
+        }
+        .carousel ul li {
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* 透明度都是零 */
+            opacity: 0;
+            transition: opacity .5s ease 0s;
+        }
+        .carousel ul li:first-child{
+            /* 只有第一张为一 */
+            opacity: 1;
+        }
+        .carousel .butleft {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            margin-top: -25px;
+            width: 50px;
+            height: 50px;
+            background-color: rgb(0, 238, 255);
+            border-radius: 50%;
+        }
+
+        .carousel .butright {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            margin-top: -25px;
+            width: 50px;
+            height: 50px;
+            background-color: rgb(0, 247, 255);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="carousel">
+        <ul id="list">
+            <li><img src="imges/0.jp.jpg" alt=""></li>
+            <li><img src="imges/1.jp.jpg" alt=""></li>
+            <li><img src="imges/5.jp.jpg" alt=""></li>
+            <li><img src="imges/3.jp.jpg" alt=""></li>
+            <li><img src="imges/4.jp.jpg" alt=""></li>
+        </ul>
+        <a href="javascript:;" class="butleft" id="butleft"></a>
+        <a href="javascript:;" class="butright" id="butright"></a>
+    </div>
+    <script>
+        var butleft = document.getElementById("butleft");
+        var butright = document.getElementById("butright");
+        var list = document.getElementById("list");
+        var lis=document.getElementsByTagName("li");
+        //显示第几张
+        var idx=0;
+        //节流
+        var lock=true;
+        butright.onclick=function(){
+            //判断节流
+            if(!lock)return;
+            lock=false;
+            //老图淡入
+            lis[idx].style.opacity= 0;
+            idx++;
+            if(idx>4)idx=0;
+            //新图淡入
+            lis[idx].style.opacity= 1;
+            //动画结束之后开锁
+            setTimeout(function(){
+                lock=true;
+            },1000);    
+
+        }
+        butleft.onclick=function(){
+            //判断节流
+            if(!lock)return;
+            lock=false;
+            //老图淡入
+            lis[idx].style.opacity= 0;
+            idx--;
+            if(idx<0)idx=4;
+            //新图淡入
+            lis[idx].style.opacity= 1;
+            //动画结束之后开锁
+            setTimeout(function(){
+                lock=true;
+            },1000);    
+
+        }
+    </script>
+</body>
+
+</html>

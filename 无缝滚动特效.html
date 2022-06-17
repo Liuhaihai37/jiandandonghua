@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>无缝滚动特效案例</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            list-style: none;
+        }
+        .box{
+            width: 1000px;
+            height: 130px;
+            border: 1px solid #000;
+            margin: 50px auto;
+             overflow: hidden;
+        }
+        .box ul{
+            /* 设置的大一些这样li才能浮动 */
+            width: 5000px;
+            position: relative;
+            left: 0;
+        }
+        ul li{
+            float: left;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box" class="box">
+        <ul id="list">
+            <li><img src="imges/0.png.jpg" alt=""></li>
+            <li><img src="imges/1.png.jpg" alt=""></li>
+            <li><img src="imges/2.png.jpg" alt=""></li>
+            <li><img src="imges/3.png.jpg" alt=""></li>
+            <li><img src="imges/4.png.jpg" alt=""></li>
+            <li><img src="imges/5png.jpg" alt=""></li>
+        </ul>
+    </div>
+    <script>
+        var box=document.getElementById("box");
+        var list=document.getElementById("list");
+        // 多复制一边li
+        list.innerHTML+=list.innerHTML;
+        var timer;
+        var left=0;
+        function move(){
+            //设表先关一下，防止累计
+            clearInterval(timer);
+            timer=setInterval(function(){
+            left-=10;
+            //验收
+            if(left<=-1260){
+                left=0;
+            }
+            list.style.left=left+"px";
+        },20);
+        }
+        move();
+        //动画鼠标放置停止
+        box.onmouseenter=function(){
+            clearInterval(timer);
+        };
+        //动画鼠标离开开始
+        box.onmouseleave=function(){
+            move();
+        };        
+    </script>
+</body>
+</html>
